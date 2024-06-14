@@ -73,7 +73,7 @@ You do not need to use the other connections.
 
 ### Compile and install openOCD
 
-You might also want to use a homebrew openOCD, because some clone RP2040 devices might not be supported out of the box. More to that in the [clone device section](### Clone devices)
+You might also want to use a homebrew openOCD, because some clone RP2040 devices might not be supported out of the box. More to that in the "Clone device" section.
 
 ```shell
 usr@system~/pico/ $ git clone https://github.com/raspberrypi/openocd.git
@@ -162,9 +162,7 @@ Info : [rp2040.core1] target has 4 breakpoints, 2 watchpoints
 Info : starting gdb server for rp2040.core0 on 3333
 Info : Listening on port 3333 for gdb connections
 ```
-If you get the "Error: Failed to connect multidrop rp2040.dap0" check your connections first, if that was not the problem go the the [clone device section](### Clone devices)
-
-Thats it with the installation. Followup with my empty template.
+If you get the "Error: Failed to connect multidrop rp2040.dap0" check your connections first, if that was not the problem go the the "Clone device" section
 
 ### Clone devices
 
@@ -175,13 +173,13 @@ and one from SWCLK to Pin24.
 [<img src="img/PinoutRP2040.png">]()
 
 
-**_NOTE:_**  I had trouble getting a geeekPi to talk with the debugger, because the ground pin is not in the middle.
+**_NOTE:_**  I had trouble getting a GeeekPi to talk with the debugger, because the ground pin is not in the middle.
 
 Some clones have a Flash chip that is not supported by openOCD. The default firmware will be able to use the chip 
 but openOCD will complain about a unsupported chip ID. Open "openocd/src/flash/nor/spi.c" in your openOCD repro and 
 add the following line. Then recompile openOCD and install (### Compile and install Open OCD).
 
-**_NOTE:_**  0x001660ba is the chipID from the GeeekPi 4mb clone, on mine the manufacturer marking was removed with a grinder. I have not 
+**_NOTE:_**  0x001660ba is the chipID from the GeeekPi 4mb clone, on mine the manufacturer marking was removed with a grinder. I have not
 been able to figure out what SPI Flash chip is used... lesson learned -> don't by a cheep clone
 
 ```code
@@ -230,10 +228,9 @@ usr@debugpizero:~ $ sudo apt-get -y install build-essential autoconf git pkg-con
 
 ```
 
-#### setup openOCD
+#### Setup openOCD
 
-Short version, long version is in [Compile and install Open OCD](### Compile and install openOCD)
-Except from the "./configure --enable-sysfsgpio --enable-bcm2835gpio" the setup process is the same.
+**_NOTE:_** Short version, long version is in "Compile and install Open OCD" Section. Except from the "./configure --enable-sysfsgpio --enable-bcm2835gpio" the setup process is the same.
 
 ```shell
 usr@debugpizero:~ $ git clone https://git.code.sf.net/p/openocd/code openocd
@@ -257,11 +254,11 @@ usr@debugpizero:~/openocd/ $ openocd -v
 There is a predefined interface file available. If you want to use that one skip the next part and check the pin-out from
 the official documentation.
 
-### create custom config file
+### Create custom config file
 
 If you want to use custom pins you need to create your own interface config
 therefor just create a .cfg file in the home directory. The benefit is that you can arrange the pins on your IO header
-so that you are able to use a 1 to 1 cable.
+so that you are able to use a 1 to 1 cable. The RP2040 has the ground pin in the middle so we will be using the pins 22 and 18.
 
 let's create a custom interface config for SWD debugging on a RP2040 device
 
@@ -269,8 +266,7 @@ let's create a custom interface config for SWD debugging on a RP2040 device
 
 [<img src="img/GPIOPins.png">]()
 
-The RP2040 has the ground pin in the middle so we will be using the pins 22 and 18, because we don't want to fiddle with
-3 single wires when attaching the device.
+
 
 swdToRp2040.cfg:
 
